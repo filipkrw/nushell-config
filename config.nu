@@ -1,7 +1,7 @@
 $env.config.show_banner = false
 $env.config.buffer_editor = "nvim"
 
-# Snippets
+# Snippetos
 def exec:it [container: string, command: string] {
   docker exec -it $container $command
 }
