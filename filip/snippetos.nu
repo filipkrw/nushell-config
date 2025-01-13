@@ -112,3 +112,15 @@ def fnvim [] {
     nvim $output
   }
 }
+
+def fz [] {
+  let output = fzf --height 60% --layout reverse --border | str trim
+  $output
+}
+
+def fzo [command: string] {
+  let output = fzf --height 60% --layout reverse --border | str trim
+  if (not ($output | is-empty)) {
+    ^$command $output
+  }
+}
