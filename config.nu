@@ -37,3 +37,6 @@ $env.config = {
 
 # Snippetos
 source filip/snippetos.nu
+
+# Plugins
+use filip/plugins.nu *
