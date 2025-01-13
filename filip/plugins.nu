@@ -7,16 +7,20 @@ const plugins = [
     nu_plugin_compress
 ];
 
-export def install_my_plugins [] {
-    $plugins | each { cargo install $in --locked } | ignore
-}
-
-export def register_my_plugins [] {
-    $plugins | each { 
+export def setup_my_plugins [] {
+    $plugins | each {
+        let plugin = $in
+        cargo install $plugin --locked
         if $nu.os-info.name == "windows" {
-            plugin add ~/.cargo/bin/($in + ".exe")
+            plugin add ~/.cargo/bin/($plugin + ".exe")
         } else {
-            plugin add ~/.cargo/bin/($in)
+            plugin add ~/.cargo/bin/($plugin)
         }
     } | ignore
+
+    # Go plugin, breaks on Windows :(
+    if $nu.os-info.name != "windows" {
+        go install github.com/oderwat/nu_plugin_logfmt@latest
+        plugin add ~/go/bin/nu_plugin_logfmt
+    }
 }
