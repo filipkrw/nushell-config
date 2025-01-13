@@ -1,5 +1,9 @@
-$env.config.show_banner = false
-$env.config.buffer_editor = "nvim"
+$env.config = {
+    show_banner: false,
+    buffer_editor: "nvim",
+}
+
+$env.PROMPT_INDICATOR = " "
 
 # Zoxide
 zoxide init nushell | save -f ~/.zoxide.nu
