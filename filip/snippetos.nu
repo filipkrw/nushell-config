@@ -124,3 +124,7 @@ def fzo [command: string] {
     ^$command $output
   }
 }
+
+def --wrapped gitp [...args] {
+  git --no-pager ...$args
+}
