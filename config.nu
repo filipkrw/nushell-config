@@ -36,7 +36,8 @@ $env.config = {
 }
 
 # Snippetos
-source filip/snippetos.nu
+$env.snippetos = ($nu.default-config-dir + "/filip/snippetos.nu")
+use filip/snippetos.nu *
 
 # Plugins
 use filip/plugins.nu *

@@ -1,80 +1,77 @@
-$env.snippetos = ($nu.default-config-dir + "/filip/snippetos.nu")
-
-# Snippetos
-def exec:it [container: string, command: string] {
+export def exec:it [container: string, command: string] {
   docker exec -it $container $command
 }
 
-def git:current [] {
+export def git:current [] {
   git rev-parse --abbrev-ref HEAD
 }
 
-def git:reset:file [filename: string] {
+export def git:reset:file [filename: string] {
   git checkout HEAD -- $filename
 }
 
-def git:pick [commit: string] {
+export def git:pick [commit: string] {
   git cherry-pick $commit
 }
 
-def git:uncommit [] {
+export def git:uncommit [] {
   git reset HEAD~
 }
 
-def git:unfuck [branch: string] {
+export def git:unfuck [branch: string] {
   git fetch origin $branch
   git reset --hard "origin/$branch"
 }
 
-def exec:sh [container: string] {
+export def exec:sh [container: string] {
   docker exec -it $container sh
 }
 
-def exec:bash [container: string] {
+export def exec:bash [container: string] {
   docker exec -it $container bash
 }
 
-def --wrapped d:up [...args] {
+export def --wrapped d:up [...args] {
   docker compose up ...$args
 }
 
-def --wrapped d:build [...args] {
+export def --wrapped d:build [...args] {
   docker compose build ...$args
 }
 
-def --wrapped d:stop [...args] {
+export def --wrapped d:stop [...args] {
   docker stop ...$args
 }
 
-def no_modules [] {
+export def no_modules [] {
     ls **/node_modules --directory | each { |item| rm -rf $item.name }                                                                                                
 }
 
-def chmod:get [filename: string] {
+export def chmod:get [filename: string] {
   stat -f "%OLp" $filename
 }
 
-def git:untrack [...files] {
+export def git:untrack [...files] {
   git rm -r --cached $files
 }
 
-def k [...args] {
+export def k [...args] {
   minikube kubectl -- $args
 }
 
-def git:rename [branch: string] {
+export def git:rename [branch: string] {
   git branch -m $branch
 }
 
-def "git+" [...args] {
+export def "git+" [...args] {
   git checkout -b $args
 }
 
-def boxbox [...args] {
+export def boxbox [...args] {
   ssh ...$args
 }
 
-def create-html [] {
+export def create-html [] {
     if (ls | where name == "index.html" | length) == 0 {
         let doc = '<!DOCTYPE html>
 <html lang="en">
@@ -95,41 +92,41 @@ def create-html [] {
     bunx live-server index.html
 }
 
-def git:logp [] {
+export def git:logp [] {
   git log --pretty=%h»¦«%s»¦«%aN»¦«%aE»¦«%aD -n 25 | lines | split column "»¦«" commit subject name email date | upsert date {|d| $d.date | into datetime} | sort-by date | reverse
 }
 
-def fcode [] {
+export def fcode [] {
   let output = fzf --height 60% --layout reverse --border | str trim
   if (not ($output | is-empty)) {
     code - $output
   }
 }
 
-def fnvim [] {
+export def fnvim [] {
   let output = fzf --height 60% --layout reverse --border | str trim
   if (not ($output | is-empty)) {
     nvim $output
   }
 }
 
-def fz [] {
+export def fz [] {
   let output = fzf --height 60% --layout reverse --border | str trim
   $output
 }
 
-def fzo [command: string] {
+export def fzo [command: string] {
   let output = fzf --height 60% --layout reverse --border | str trim
   if (not ($output | is-empty)) {
     ^$command $output
   }
 }
 
-def --wrapped gitp [...args] {
+export def --wrapped gitp [...args] {
   git --no-pager ...$args
 }
 
-def re:server [] {
+export def re:server [] {
   docker exec server yarn workspace @algomo/server gen:all
   docker restart server
 }
