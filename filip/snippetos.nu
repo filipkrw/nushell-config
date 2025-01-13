@@ -34,16 +34,16 @@ def exec:bash [container: string] {
   docker exec -it $container bash
 }
 
-def d:up [...args] {
-  docker compose up $args
+def --wrapped d:up [...args] {
+  docker compose up ...$args
 }
 
-def d:build [...args] {
-  docker compose build $args
+def --wrapped d:build [...args] {
+  docker compose build ...$args
 }
 
-def d:stop [...args] {
-  docker stop $args
+def --wrapped d:stop [...args] {
+  docker stop ...$args
 }
 
 def no_modules [] {
@@ -127,4 +127,9 @@ def fzo [command: string] {
 
 def --wrapped gitp [...args] {
   git --no-pager ...$args
+}
+
+def re:server [] {
+  docker exec server yarn workspace @algomo/server gen:all
+  docker restart server
 }
