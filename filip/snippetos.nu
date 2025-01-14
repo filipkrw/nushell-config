@@ -64,7 +64,7 @@ export def git:rename [branch: string] {
 }
 
 export def "git+" [...args] {
-  git checkout -b $args
+  git checkout -b ...$args
 }
 
 export def boxbox [...args] {
@@ -129,4 +129,12 @@ export def --wrapped gitp [...args] {
 export def re:server [] {
   docker exec server yarn workspace @algomo/server gen:all
   docker restart server
+}
+
+export def tsc:server [] {
+  docker exec server yarn workspace @algomo/server exec tsc --noEmit
+}
+
+export def tsc:app [] {
+  docker exec platform yarn workspace app exec tsc --noEmit
 }
