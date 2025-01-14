@@ -20,8 +20,8 @@ let zoxide_completer = {|spans|
 
 let completers = {|spans|
     match $spans.0 {
-        z => $zoxide_completer
-        zi => $zoxide_completer
+    	z | zi => $zoxide_completer
+    	__zoxide_z | __zoxide_zi => $zoxide_completer
         _ => $carapace_completer
     } | do $in $spans
 }
