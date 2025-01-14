@@ -138,3 +138,6 @@ export def tsc:server [] {
 export def tsc:app [] {
   docker exec platform yarn workspace app exec tsc --noEmit
 }
+
+export alias za = zoxide add
+export alias zr = zoxide remove
