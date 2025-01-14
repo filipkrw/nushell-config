@@ -15,7 +15,8 @@ let carapace_completer = {|spans|
 }
 
 let zoxide_completer = {|spans|
-    $spans | skip 1 | zoxide query -l ...$in | lines | where {|x| $x != $env.PWD}
+    # $spans | skip 1 | zoxide query -l ...$in | lines | where {|x| $x != $env.PWD}
+    $spans | skip 1 | zoxide query -l ...$in | lines | each {|line| $line | str replace $env.HOME '~' } | where {|x| $x != $env.PWD}
 }
 
 let completers = {|spans|
