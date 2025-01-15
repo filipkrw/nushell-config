@@ -39,6 +39,10 @@ export def --wrapped d:build [...args] {
   docker compose build ...$args
 }
 
+export def --wrapped d:rb [...args] {
+  docker compose build ...$args; docker compose up ...$args
+}
+
 export def --wrapped d:stop [...args] {
   docker stop ...$args
 }
@@ -131,17 +135,37 @@ export def re:server [] {
   docker restart server
 }
 
-export def tsc:server [] {
+export def typecheck:server [] {
   docker exec server yarn workspace @algomo/server exec tsc --noEmit
 }
 
-export def tsc:app [] {
+export def typecheck:app [] {
   docker exec platform yarn workspace app exec tsc --noEmit
+}
+
+export def typecheck:widget [] {
+  docker exec platform yarn workspace widget exec tsc --noEmit
 }
 
 export alias za = zoxide add
 export alias zr = zoxide remove
 
+export alias test:server = docker exec server yarn workspace @algomo/server test 
+
 export def pull-config [] {
   git -C $nu.default-config-dir pull
+}
+
+export def to_iso [date: datetime] {
+  $date | format date "%Y-%m-%dT%H:%M:%S.%f" | str substring 0..22 | $in + "Z"
+}
+
+export def push-config [] {
+  git add -A
+  git commit -m $"\"(date now | to_iso $in) sync\""
+  git -C $nu.default-config-dir push
+}
+
+export def proxy [port: string] {
+  tmux kill-session -t proxy o+e>| ignore | tmux new-session -s proxy $"ssh proxy -R 8080:localhost:($port) 'sudo tail -n 100 -f /var/log/nginx/access.log'"
 }
