@@ -152,18 +152,22 @@ export alias zr = zoxide remove
 
 export alias test:server = docker exec server yarn workspace @algomo/server test 
 
-export def pull-config [] {
-  git -C $nu.default-config-dir pull
-}
-
 export def to_iso [date: datetime] {
   $date | format date "%Y-%m-%dT%H:%M:%S.%f" | str substring 0..22 | $in + "Z"
 }
 
-export def push-config [] {
+export def push-config [msg?: string] {
   git add -A
-  git commit -m $"(date now | to_iso $in) sync"
+  if ($msg | is-not-empty) {
+    git commit -m $msg
+  } else {
+    git commit -m $"(date now | to_iso $in) sync"
+  }
   git -C $nu.default-config-dir push
+}
+
+export def pull-config [] {
+  git -C $nu.default-config-dir pull
 }
 
 export def proxy [port: string] {
