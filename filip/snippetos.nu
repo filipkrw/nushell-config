@@ -141,3 +141,7 @@ export def tsc:app [] {
 
 export alias za = zoxide add
 export alias zr = zoxide remove
+
+export def pull-config [] {
+  git -C $nu.default-config-dir pull
+}
