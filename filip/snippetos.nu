@@ -162,7 +162,7 @@ export def to_iso [date: datetime] {
 
 export def push-config [] {
   git add -A
-  git commit -m $"\"(date now | to_iso $in) sync\""
+  git commit -m $"(date now | to_iso $in) sync"
   git -C $nu.default-config-dir push
 }
 
