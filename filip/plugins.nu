@@ -18,10 +18,6 @@ export def setup_my_plugins [] {
         }
     } | ignore
 
-    # Go plugin, breaks on Windows :(
-    # Issue: https://github.com/ainvaltin/nu-plugin/issues/3
-    if $nu.os-info.name != "windows" {
-        go install github.com/oderwat/nu_plugin_logfmt@latest
-        plugin add ~/go/bin/nu_plugin_logfmt
-    }
+    go install github.com/oderwat/nu_plugin_logfmt@latest
+    plugin add ~/go/bin/nu_plugin_logfmt
 }
