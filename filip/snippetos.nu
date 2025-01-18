@@ -173,3 +173,14 @@ export def pull-config [] {
 export def proxy [port: string] {
   tmux kill-session -t proxy o+e>| ignore | tmux new-session -s proxy $"ssh proxy -R 8080:localhost:($port) 'sudo tail -n 100 -f /var/log/nginx/access.log'"
 }
+
+export def hold [] {
+  $in | to msgpack | save -f ($nu.default-config-dir + "/stash.msgpack")
+  $in
+}
+
+export def give [] {
+  if (($nu.default-config-dir + "/stash.msgpack") | path exists) {
+    open ($nu.default-config-dir + "/stash.msgpack") | from msgpack
+  }
+}
