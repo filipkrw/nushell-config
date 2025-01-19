@@ -23,6 +23,11 @@ export def git:unfuck [branch: string] {
   git reset --hard "origin/$branch"
 }
 
+export def git:refi [base_branch, file_path] {
+  let common_commit_hash = git merge-base HEAD $base_branch
+  git checkout $common_commit_hash -- $file_path
+}
+
 export def exec:sh [container: string] {
   docker exec -it $container sh
 }
@@ -75,7 +80,7 @@ export def boxbox [...args] {
   ssh ...$args
 }
 
-export def create-html [] {
+export def htmxd [] {
     if (ls | where name == "index.html" | length) == 0 {
         let doc = '<!DOCTYPE html>
 <html lang="en">
@@ -191,4 +196,8 @@ export def rel [] {
 export def --env lsd [dir?] {
   cd $dir
   ls
+}
+
+export def dotenv:mongo [] {
+  open .env | lines | where ($it | is-not-empty) | parse "{key}={value}" | where key == "MONGO_CONNECTION_STRING" | last | get value
 }
