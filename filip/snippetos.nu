@@ -173,7 +173,8 @@ export def push-config [msg?: string] {
 }
 
 export def pull-config [] {
-  git -C $nu.default-config-dir pull
+  cd $nu.default-config-dir
+  git pull
 }
 
 export def proxy [port: string] {
