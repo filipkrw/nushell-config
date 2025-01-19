@@ -157,13 +157,14 @@ export def to_iso [date: datetime] {
 }
 
 export def push-config [msg?: string] {
+  cd $nu.default-config-dir
   git add -A
   if ($msg | is-not-empty) {
     git commit -m $msg
   } else {
     git commit -m $"(date now | to_iso $in) sync"
   }
-  git -C $nu.default-config-dir push
+  git push
 }
 
 export def pull-config [] {
@@ -175,12 +176,19 @@ export def proxy [port: string] {
 }
 
 export def cap [] {
-  $in | to msgpack | save -f ($nu.default-config-dir + "/stash.msgpack")
-  $in
+  if ($in | is-not-empty) {
+    $in | to msgpack | save -f ($nu.default-config-dir + "/stash.msgpack")
+    $in
+  }
 }
 
 export def rel [] {
   if (($nu.default-config-dir + "/stash.msgpack") | path exists) {
     open ($nu.default-config-dir + "/stash.msgpack") | from msgpack
   }
+}
+
+export def --env lsd [dir?] {
+  cd $dir
+  ls
 }
