@@ -20,7 +20,7 @@ export def git:uncommit [] {
 
 export def git:unfuck [branch: string] {
   git fetch origin $branch
-  git reset --hard "origin/$branch"
+  git reset --hard $"origin/($branch)"
 }
 
 export def git:refi [base_branch, file_path] {
