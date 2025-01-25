@@ -42,4 +42,3 @@ use filip/snippetos.nu *
 
 # Plugins
 use filip/plugins.nu *
-use filip/git.nu *
