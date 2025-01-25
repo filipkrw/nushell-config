@@ -205,9 +205,11 @@ export def dotenv:mongo [] {
   open .env | lines | where ($it | is-not-empty) | parse "{key}={value}" | where key == "MONGO_CONNECTION_STRING" | last | get value
 }
 
-export alias lg = lazygit
+export alias j = just
 
 # Git
+export alias lg = lazygit
+
 export alias s = git status -sb
 export alias g = git
 export alias ga = git add
