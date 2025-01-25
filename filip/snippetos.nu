@@ -194,8 +194,10 @@ export def rel [] {
   }
 }
 
-export def --env lsd [dir?] {
-  cd $dir
+alias core-cd = cd
+
+export def --env cd [dir?] {
+  core-cd $dir
   ls
 }
 
