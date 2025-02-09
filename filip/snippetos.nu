@@ -208,7 +208,7 @@ export def dotenv:mongo [] {
 export alias j = just
 
 export def create-polars [name: string] {
-  print $"Creating dirs and files in \"($name)\"..."
+  print $"Setting up in \"($name)\"..."
   mkdir $name; cd $name
   mkdir input output
   touch input/.gitkeep output/.gitkeep
@@ -217,6 +217,9 @@ export def create-polars [name: string] {
 
   print "Creating virtual environment..."
   python -m venv .venv;
+  
+  print "Installing dependencies..."
+  .venv/Scripts/pip install ipykernel polars
 
   print "Done"
 }
