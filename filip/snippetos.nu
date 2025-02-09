@@ -207,6 +207,20 @@ export def dotenv:mongo [] {
 
 export alias j = just
 
+export def create-polars [name: string] {
+  print $"Creating dirs and files in \"($name)\"..."
+  mkdir $name; cd $name
+  mkdir input output
+  touch input/.gitkeep output/.gitkeep
+  cp $"($nu.default-config-dir)/filip/polars_base.ipynb" notebook.ipynb
+  ".venv" | save .gitignore
+
+  print "Creating virtual environment..."
+  python -m venv .venv;
+
+  print "Done"
+}
+
 # Git
 export alias lg = lazygit
 
