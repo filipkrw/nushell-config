@@ -216,7 +216,7 @@ export def create-polars [name: string] {
   ".venv" | save .gitignore
 
   print "Creating virtual environment..."
-  python -m venv .venv;
+  python3 -m venv .venv;
   
   print "Installing dependencies..."
   .venv/Scripts/pip install ipykernel polars
