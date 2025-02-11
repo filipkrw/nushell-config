@@ -219,7 +219,11 @@ export def create-polars [name: string] {
   python3 -m venv .venv;
   
   print "Installing dependencies..."
-  .venv/Scripts/pip install ipykernel polars
+  if ($nu.os-info.name == "windows") {
+    .venv/Scripts/pip install ipykernel polars
+  } else {
+    .venv/bin/pip install ipykernel polars
+  }
 
   print "Done"
 }
