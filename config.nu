@@ -42,3 +42,6 @@ use filip/snippetos.nu *
 
 # Plugins
 use filip/plugins.nu *
+
+# Local settings
+source local.nu
