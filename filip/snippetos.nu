@@ -135,23 +135,6 @@ export def --wrapped gitp [...args] {
   git --no-pager ...$args
 }
 
-export def re:server [] {
-  docker exec server yarn workspace @algomo/server gen:all
-  docker restart server
-}
-
-export def typecheck:server [] {
-  docker exec server yarn workspace @algomo/server exec tsc --noEmit
-}
-
-export def typecheck:app [] {
-  docker exec platform yarn workspace app exec tsc --noEmit
-}
-
-export def typecheck:widget [] {
-  docker exec platform yarn workspace widget exec tsc --noEmit
-}
-
 export alias za = zoxide add
 export alias zr = zoxide remove
 
@@ -242,6 +225,42 @@ export def "from env" []: string -> record {
           | str replace -a "\\t" "\t"   # replace `\t` with tab
     }
     | transpose -r -d
+}
+
+export def venv:create [name?: string] {
+  let venv_name = if ($name | is-empty) {
+    ".venv"
+  } else {
+    $name
+  }
+  
+  if ($venv_name | path exists) {
+    let activate_path = $"($venv_name)/bin/activate.nu"
+
+    print $"Virtual environment \"($venv_name)\" already exists.\nRun `overlay use ($activate_path)` to activate it.\nRun `venv:delete` to delete it."
+    return
+  }
+  
+  virtualenv $venv_name
+
+  let activate_path = $"($venv_name)/bin/activate.nu"
+  
+  print $"\nVirtual environment \"($venv_name)\" created.\nRun `overlay use ($activate_path)` to activate it."
+}
+
+export def venv:delete [name?: string] {
+  let venv_name = if ($name | is-empty) {
+    ".venv"
+  } else {
+    $name
+  }
+
+  if ($venv_name | path exists) {
+    rm -rf $venv_name
+    print $"Virtual environment \"($venv_name)\" deleted."
+  } else {
+    print $"Virtual environment ($venv_name) does not exist. Skipping deletion."
+  }
 }
 
 # Git
