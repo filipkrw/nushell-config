@@ -233,17 +233,21 @@ export def venv:create [name?: string] {
   } else {
     $name
   }
+
+
+  let activate_path = if ($nu.os-info.name == "windows") {
+      $"($venv_name)/Scripts/activate.nu"
+  } else {
+      $"($venv_name)/bin/activate.nu"
+  }
   
   if ($venv_name | path exists) {
-    let activate_path = $"($venv_name)/bin/activate.nu"
 
     print $"Virtual environment \"($venv_name)\" already exists.\nRun `overlay use ($activate_path)` to activate it.\nRun `venv:delete` to delete it."
     return
   }
   
   virtualenv $venv_name
-
-  let activate_path = $"($venv_name)/bin/activate.nu"
   
   print $"\nVirtual environment \"($venv_name)\" created.\nRun `overlay use ($activate_path)` to activate it."
 }
