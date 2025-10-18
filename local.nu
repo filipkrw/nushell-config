@@ -1,1 +1,0 @@
-$env.path ++= ["/Users/filip/go/bin"]

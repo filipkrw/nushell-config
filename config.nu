@@ -44,4 +44,5 @@ use filip/snippetos.nu *
 use filip/plugins.nu *
 
 # Local settings
-source local.nu
+source (if ("local.nu" | path exists) { "local.nu" } else { "empty.nu" })
+
